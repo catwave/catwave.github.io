@@ -461,8 +461,8 @@ class="sourceCode sh"><code class="sourceCode bash"><span id="cb27-1"><a href="#
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="va">kver</span><span class="op">=</span><span class="va">$(</span><span class="fu">uname</span> <span class="at">-r</span><span class="va">)</span> <span class="ex">ukify</span> build <span class="at">--linux</span> <span class="st">&quot;/boot/vmlinuz-</span><span class="va">$kver</span><span class="st">&quot;</span> <span class="at">--initrd</span> <span class="st">&quot;/boot/initrd.img-</span><span class="va">$kver</span><span class="st">&quot;</span> <span class="at">--cmdline</span> @/etc/kernel/cmdline <span class="at">--os-release</span> @/usr/lib/os-release <span class="at">--output</span> /etc/kernel/uki.efi</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="ex">sbctl</span> sign <span class="at">--output</span> /boot/EFI/BOOT/uki.efi /etc/kernel/uki.efi</span></code></pre></div>
-<p>To manage boot entries from the OS, <code>efibootmgr</code> can be
-used</p>
+<p>To manage boot entries from within the OS, <code>efibootmgr</code>
+can be used</p>
 <p>To delete boot entry 0:</p>
 <div class="sourceCode" id="cb28"><pre
 class="sourceCode sh"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> efibootmgr <span class="at">-B</span> <span class="at">-b</span> 0</span></code></pre></div>
