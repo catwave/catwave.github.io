@@ -244,14 +244,10 @@ userland, musl C library and the LLVM toolchain, along with the dinit
 service manager. Its primary focus is correctness, consistency and
 simplicity, but not at the expense of feature set”</em></p>
 <p>I recommend reading their docs, it’s clear and concise.</p>
-<p><a href="https://chimera-linux.org/docs/">chimera docs</a></p>
-<p><code>cbuild</code> is also amazing:</p>
-<p><a
-href="https://github.com/chimera-linux/cports/blob/master/Usage.md">cbuild
-usage</a></p>
+<p><code>cbuild</code> is also amazing.</p>
 <h1 id="installing-chimera">Installing Chimera</h1>
 <h2 id="preparation">Preparation</h2>
-<p>Download the iso and burn it to a usb stick:</p>
+<p>Download the iso and write it to a usb stick:</p>
 <ul>
 <li><strong>Make sure you’re writing to the correct
 device!</strong></li>
@@ -475,15 +471,19 @@ class="sourceCode sh"><code class="sourceCode bash"><span id="cb24-1"><a href="#
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># generate new uki as needed</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="va">uki</span><span class="op">=</span>/etc/kernel/uki.efi</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="ex">ukify</span> build <span class="dt">\</span></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">--linux</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">ls</span> /boot/vmlinuz<span class="pp">*</span><span class="kw">|</span><span class="fu">sort</span> <span class="at">-V</span><span class="kw">|</span><span class="fu">tail</span> <span class="at">-1</span><span class="va">)</span><span class="st">&quot;</span> <span class="dt">\</span></span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">--initrd</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">ls</span> /boot/initrd<span class="pp">*</span><span class="kw">|</span><span class="fu">sort</span> <span class="at">-V</span><span class="kw">|</span><span class="fu">tail</span> <span class="at">-1</span><span class="va">)</span><span class="st">&quot;</span> <span class="dt">\</span></span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">--cmdline</span> @/etc/kernel/cmdline <span class="dt">\</span></span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">--os-release</span> @/usr/lib/os-release <span class="dt">\</span></span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">--output</span> <span class="st">&quot;</span><span class="va">$uki</span><span class="st">&quot;</span></span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="ex">sbctl</span> sign <span class="at">--output</span> /boot/EFI/BOOT/uki.efi <span class="st">&quot;</span><span class="va">$uki</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="fu">rm</span> <span class="st">&quot;</span><span class="va">$uki</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="st">&quot;✓ Deleted </span><span class="va">$uki</span><span class="st">&quot;</span></span></code></pre></div>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="va">kver</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$(</span><span class="ex">linux-version</span> list<span class="kw">|</span><span class="ex">linux-version</span> sort <span class="at">--reverse</span><span class="kw">|</span><span class="fu">sed</span> q<span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Building uki for: </span><span class="va">$kver</span><span class="st">&quot;</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="ex">ukify</span> build <span class="dt">\</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">--uname</span> <span class="st">&quot;</span><span class="va">$kver</span><span class="st">&quot;</span> <span class="dt">\</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">--linux</span> <span class="st">&quot;/boot/vmlinuz-</span><span class="va">$kver</span><span class="st">&quot;</span> <span class="dt">\</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">--initrd</span> <span class="st">&quot;/boot/initrd.img-</span><span class="va">$kver</span><span class="st">&quot;</span> <span class="dt">\</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">--cmdline</span> @/etc/kernel/cmdline <span class="dt">\</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">--os-release</span> @/usr/lib/os-release <span class="dt">\</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">--output</span> <span class="st">&quot;</span><span class="va">$uki</span><span class="st">&quot;</span></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a><span class="ex">sbctl</span> sign <span class="at">--output</span> /boot/EFI/BOOT/uki.efi <span class="st">&quot;</span><span class="va">$uki</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="fu">rm</span> <span class="st">&quot;</span><span class="va">$uki</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="st">&quot;✓ Deleted </span><span class="va">$uki</span><span class="st">&quot;</span></span></code></pre></div>
 <h2 id="tpm-luks-auto-decryption">TPM LUKS auto-decryption</h2>
 <div class="sourceCode" id="cb25"><pre
 class="sourceCode sh"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> apk add clevis-luks</span></code></pre></div>
