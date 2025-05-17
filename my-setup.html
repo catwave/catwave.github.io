@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>My Setup</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #cccccc; background-color: #303030; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ffcfaf; } /* Alert */
+    code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+    code span.at { } /* Attribute */
+    code span.bn { color: #dca3a3; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #f0dfaf; } /* ControlFlow */
+    code span.ch { color: #dca3a3; } /* Char */
+    code span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+    code span.co { color: #7f9f7f; } /* Comment */
+    code span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+    code span.do { color: #7f9f7f; } /* Documentation */
+    code span.dt { color: #dfdfbf; } /* DataType */
+    code span.dv { color: #dcdccc; } /* DecVal */
+    code span.er { color: #c3bf9f; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #c0bed1; } /* Float */
+    code span.fu { color: #efef8f; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+    code span.kw { color: #f0dfaf; } /* Keyword */
+    code span.op { color: #f0efd0; } /* Operator */
+    code span.ot { color: #efef8f; } /* Other */
+    code span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+    code span.sc { color: #dca3a3; } /* SpecialChar */
+    code span.ss { color: #cc9393; } /* SpecialString */
+    code span.st { color: #cc9393; } /* String */
+    code span.va { } /* Variable */
+    code span.vs { color: #cc9393; } /* VerbatimString */
+    code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">My Setup</h1>
+</header>
+<h1 id="intro">Intro</h1>
+<p>New laptop: time to reconsider the whole setup. This time I chose
+Chimera Linux.</p>
+<p><em>“Chimera is an independent, general-purpose, rolling-release
+Linux distribution developed from scratch. It utilizes a FreeBSD-based
+userland, musl C library and the LLVM toolchain, along with the dinit
+service manager. Its primary focus is correctness, consistency and
+simplicity, but not at the expense of feature set”</em></p>
+<p>I recommend reading their docs, it’s clear and concise.</p>
+<p><a href="https://chimera-linux.org/docs/">chimera docs</a></p>
+<p><code>cbuild</code> is also amazing:</p>
+<p><a
+href="https://github.com/chimera-linux/cports/blob/master/Usage.md">cbuild
+usage</a></p>
+<h1 id="installing-chimera">Installing Chimera</h1>
+<h2 id="preparation">Preparation</h2>
+<p>Download the iso and burn it to a usb stick:</p>
+<ul>
+<li><strong>Make sure you’re writing to the correct
+device!</strong></li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dd</span> if=chimera-live.iso of=/dev/sda bs=1M status=progress oflag=sync</span></code></pre></div>
+<h2 id="partitioning-btrfs-on-luks">Partitioning (btrfs on LUKS)</h2>
+<p>Boot into the usb live environment, connect to internet and open a
+root shell. Default creds are <code>anon:chimera</code>.</p>
+<p>Optionally erase all filesystem signatures</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">wipefs</span> <span class="at">-a</span> /dev/nvme0n1</span></code></pre></div>
+<p>Using cfdisk, create two partitions:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">cfdisk</span> /dev/nvme0n1</span></code></pre></div>
+<ol type="1">
+<li>efi, about 1 GB should be fine</li>
+<li>main, the rest of the space</li>
+</ol>
+<p>Format the efi partition:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mkfs.vfat</span> /dev/nvme0n1p1</span></code></pre></div>
+<p>In this setup, btrfs will replace both LVM and ext4.</p>
+<p>Create LUKS device:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">cryptsetup</span> luksFormat /dev/nvme0n1p2</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">cryptsetup</span> luksOpen /dev/nvme0n1p2 crypt</span></code></pre></div>
+<p>Setup the main btrfs filesystem:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mkfs.btrfs</span> /dev/mapper/crypt</span></code></pre></div>
+<p>Mount and create btrfs subvolumes: (<code>btrfs</code> subcommands
+can be abreviated if there’s no ambiguity)</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="va">BTRFS_OPTS</span><span class="op">=</span><span class="st">&quot;rw,noatime,compress=zstd,discard=async&quot;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mount</span> <span class="at">-t</span> btrfs <span class="at">-o</span> <span class="va">$BTRFS_OPTS</span> /dev/mapper/crypt /media</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="ex">btrfs</span> su cr /media/@</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="ex">btrfs</span> su cr /media/@home</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="ex">btrfs</span> su cr /media/@var</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="ex">btrfs</span> su cr /media/@swap</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="ex">btrfs</span> su cr /media/@snapshots</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="fu">umount</span> /media</span></code></pre></div>
+<p>Mount root, create the directories in which the subvolumes will be
+mounted, then mount the subvolumes:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> /media/root</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mount</span> <span class="at">-o</span> <span class="va">$BTRFS_OPTS</span>,subvol=@ /dev/mapper/crypt /media/root</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> /media/root/boot</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> /media/root/home</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> /media/root/var</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> /media/root/swap</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> /media/root/.snapshots</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="fu">mount</span> <span class="at">-t</span> btrfs <span class="at">-o</span> <span class="va">$BTRFS_OPTS</span>,subvol=@home /dev/mapper/crypt /media/root/home</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="fu">mount</span> <span class="at">-t</span> btrfs <span class="at">-o</span> <span class="va">$BTRFS_OPTS</span>,subvol=@var /dev/mapper/crypt /media/root/var</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="fu">mount</span> <span class="at">-t</span> btrfs <span class="at">-o</span> <span class="va">$BTRFS_OPTS</span>,subvol=@swap /dev/mapper/crypt /media/root/swap</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="fu">mount</span> <span class="at">-t</span> btrfs <span class="at">-o</span> <span class="va">$BTRFS_OPTS</span>,subvol=@snapshots /dev/mapper/crypt /media/root/.snapshots</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="fu">mount</span> /dev/nvme0n1p1 /media/root/boot</span></code></pre></div>
+<p>Once everything is mounted, install Chimera and chroot into it:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">chimera-bootstrap</span> /media/root</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">chimera-chroot</span> /media/root</span></code></pre></div>
+<h2 id="post-installation-steps">Post-installation steps</h2>
+<p>Set the <code>root</code> password, install the stable kernel, add
+needed packages, create the swapfile if needed, generate fstab and
+crypttab, and finally generate the initramfs:</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">passwd</span> root</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="ex">apk</span> add linux-stable cryptsetup-scripts</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="ex">btrfs</span> filesystem mkswapfile <span class="at">--size</span> 4g <span class="at">--uuid</span> clear /swap/swapfile</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="ex">swapon</span> /swap/swapfile</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="ex">genfstab</span> / <span class="op">&gt;&gt;</span> /etc/fstab</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> crypt /dev/nvme0n1p2 none luks <span class="op">&gt;</span> /etc/crypttab</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="ex">update-initramfs</span> <span class="at">-c</span> <span class="at">-k</span> all</span></code></pre></div>
+<p>For correct <code>/boot</code> permissions, we need to edit
+/etc/fstab, and change <code>fmask</code> and <code>dmask</code> values
+from “0022” to “0077”.</p>
+<p>Once that’s done, remount <code>/boot</code>:</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">umount</span> /boot</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mount</span> /boot</span></code></pre></div>
+<p>Install systemd-boot:</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">apk</span> add systemd-boot</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ex">bootctl</span> install</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="ex">gen-systemd-boot</span></span></code></pre></div>
+<p>Rebooting should be fine now.</p>
+<h1 id="desktop-env">Desktop env</h1>
+<h2 id="sway-swayfx">sway / swayfx</h2>
+<p>TODO</p>
+<ul>
+<li><p>add <code>chimera-repo-user</code> first</p></li>
+<li><p>concatenate current world with this one, deduplicate, then
+install</p></li>
+</ul>
+<p>My current world:</p>
+<pre><code>adwaita-icon-theme
+base-full
+bluez
+bolt
+brightnessctl
+btrbk
+chimera-repo-user
+chimerautils
+clevis-luks
+cryptsetup-scripts
+efibootmgr
+flatpak
+fonts-nerd-symbols-only
+foot
+fprintd
+git
+grim
+htop
+impala
+incus
+ldns
+libsixel-progs
+linux-stable
+ncdu
+nmap
+nmap-ncat
+oath-toolkit
+pipewire
+playerctl
+power-profiles-daemon
+python-pexpect
+qemu-img
+qemu-system-x86_64
+sbctl
+slurp
+socat
+swappy
+swaybg
+swayfx
+swayidle
+swayimg
+swaylock
+swaync
+systemd-boot
+tmux
+ucode-amd
+ukify
+vim
+virt-viewer
+wireshark
+wofi
+xdg-desktop-portal-gtk
+xdg-desktop-portal-wlr
+xwayland
+zip
+zsh</code></pre>
+<ul>
+<li><p>copy dotfiles</p></li>
+<li><p>setup fprintd</p></li>
+</ul>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> apk add fprintd</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> fprintd-enroll yourusername</span></code></pre></div>
+<p>Insert the following line at the begining of system-auth pam
+file:</p>
+<pre><code>auth sufficient /usr/lib/security/pam_fprintd.so timeout=10</code></pre>
+<p><code>sed</code> can be used to do this:</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">&#39;1i\</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="st">auth sufficient /usr/lib/security/pam_fprintd.so timeout=10</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span> /usr/lib/pam.d/system-auth <span class="op">&gt;</span> newfile</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co"># verify contents of newfile, then</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> mv newfile /usr/lib/pam.d/system-auth</span></code></pre></div>
+<h1 id="extras">Extras</h1>
+<h2 id="incus-setup">incus setup</h2>
+<p>The “incus-admin” groups is instead named “_incus-admin”:</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> usermod <span class="at">-aG</span> _incus-admin yourusername</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># re-login</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="ex">incus</span> admin init</span></code></pre></div>
+<h2 id="uki">uki</h2>
+<p>The goal of uki is to bundle the initrd, kernel, kernel commandline
+etc. into a single UEFI executable so that we only have to sign and
+verify a single item with secure boot.</p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> apk add efibootmgr sbctl ukify</span></code></pre></div>
+<p>Reboot into the firmware interface, clear TPM keys and set the TPM
+into setup mode (for framework laptops, this means enabling TPM
+operations)</p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">loginctl</span> reboot <span class="at">--firmware-setup</span></span></code></pre></div>
+<p><code>sbctl status</code> should show “Setup Mode” as “Enabled”.</p>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sbctl</span> status</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> sbctl create-keys</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> sbctl enroll-keys</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> cp /proc/cmdline /etc/kernel/cmdline</span></code></pre></div>
+<ul>
+<li>edit /etc/kernel/cmdline as needed</li>
+</ul>
+<p>Bundle and sign everything:</p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> sh</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="va">kver</span><span class="op">=</span><span class="va">$(</span><span class="fu">uname</span> <span class="at">-r</span><span class="va">)</span> <span class="ex">ukify</span> build <span class="at">--linux</span> <span class="st">&quot;/boot/vmlinuz-</span><span class="va">$kver</span><span class="st">&quot;</span> <span class="at">--initrd</span> <span class="st">&quot;/boot/initrd.img-</span><span class="va">$kver</span><span class="st">&quot;</span> <span class="at">--cmdline</span> @/etc/kernel/cmdline <span class="at">--os-release</span> @/usr/lib/os-release <span class="at">--output</span> /etc/kernel/uki.efi</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="ex">sbctl</span> sign <span class="at">--output</span> /boot/EFI/BOOT/uki.efi /etc/kernel/uki.efi</span></code></pre></div>
+<p>To manage boot entries from the OS, <code>efibootmgr</code> can be
+used</p>
+<p>To delete boot entry 0:</p>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> efibootmgr <span class="at">-B</span> <span class="at">-b</span> 0</span></code></pre></div>
+<p>To create the new boot entry (note the use of
+<strong>backslashes</strong> in the loader path)</p>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> efibootmgr <span class="at">--create</span> <span class="at">--disk</span><span class="op">=</span>/dev/nvme0n1 <span class="at">--part</span><span class="op">=</span>1 <span class="at">--label</span><span class="op">=</span><span class="st">&quot;chimera&quot;</span> <span class="at">--loader</span><span class="op">=</span><span class="st">&#39;EFI\BOOT\uki.efi&#39;</span></span></code></pre></div>
+<p>To auto-generate and sign the uki, this script can be used:</p>
+<p><code>/etc/kernel.d/99-zz_uki.sh:</code></p>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/sh</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># generate new uki as needed</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="va">uki</span><span class="op">=</span>/etc/kernel/uki.efi</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="ex">ukify</span> build <span class="dt">\</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">--linux</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">ls</span> /boot/vmlinuz<span class="pp">*</span><span class="kw">|</span><span class="fu">sort</span> <span class="at">-V</span><span class="kw">|</span><span class="fu">tail</span> <span class="at">-1</span><span class="va">)</span><span class="st">&quot;</span> <span class="dt">\</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">--initrd</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">ls</span> /boot/initrd<span class="pp">*</span><span class="kw">|</span><span class="fu">sort</span> <span class="at">-V</span><span class="kw">|</span><span class="fu">tail</span> <span class="at">-1</span><span class="va">)</span><span class="st">&quot;</span> <span class="dt">\</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">--cmdline</span> @/etc/kernel/cmdline <span class="dt">\</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">--os-release</span> @/usr/lib/os-release <span class="dt">\</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">--output</span> <span class="st">&quot;</span><span class="va">$uki</span><span class="st">&quot;</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="ex">sbctl</span> sign <span class="at">--output</span> /boot/EFI/BOOT/uki.efi <span class="st">&quot;</span><span class="va">$uki</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="fu">rm</span> <span class="st">&quot;</span><span class="va">$uki</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="st">&quot;✓ Deleted </span><span class="va">$uki</span><span class="st">&quot;</span></span></code></pre></div>
+<h2 id="tpm-luks-auto-decryption">TPM LUKS auto-decryption</h2>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> apk add clevis-luks</span></code></pre></div>
+<p>Enroll using PCRs 0 and 7:</p>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> clevis luks bind <span class="at">-d</span> /dev/nvme0n1p2 tpm2 <span class="st">&#39;{&quot;pcr_bank&quot;:&quot;sha256&quot;,&quot;pcr_ids&quot;:&quot;0,7&quot;}&#39;</span></span></code></pre></div>
+<p>Update initrd/uki:</p>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> update-initramfs <span class="at">-c</span> <span class="at">-k</span> all</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> /etc/kernel.d/99-zz_uki.sh</span></code></pre></div>
+<h1 id="todo">TODO</h1>
+<ul>
+<li>Eventually, configuring the limine bootloader with the snapper
+extension for btrfs snapshots management would be cool.</li>
+</ul>
+</body>
+</html>
