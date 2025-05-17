@@ -340,6 +340,8 @@ class="sourceCode sh"><code class="sourceCode bash"><span id="cb13-1"><a href="#
 <div class="sourceCode" id="cb14"><pre
 class="sourceCode sh"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">dinitctl</span> enable syslog-ng</span></code></pre></div>
 <h1 id="desktop-env">Desktop env</h1>
+<p>From this point, commands are executed as the normal user instead of
+root.</p>
 <h2 id="sway-swayfx">sway / swayfx</h2>
 <p>Copy dotfiles (note the trailing slash)</p>
 <div class="sourceCode" id="cb15"><pre
@@ -504,6 +506,26 @@ class="sourceCode sh"><code class="sourceCode bash"><span id="cb33-1"><a href="#
 <div class="sourceCode" id="cb34"><pre
 class="sourceCode sh"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> update-initramfs <span class="at">-c</span> <span class="at">-k</span> all</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> /etc/kernel.d/99-zz_uki.sh</span></code></pre></div>
+<h2 id="automatic-snapshots">automatic snapshots</h2>
+<p>Create the following config file at
+<code>/etc/btrbk/btrbk.conf</code> :</p>
+<div class="sourceCode" id="cb35"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co">#https://digint.ch/btrbk/doc/readme.html</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="ex">timestamp_format</span>        long</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="ex">snapshot_preserve_min</span>   18h</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="ex">snapshot_preserve</span>       48h</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="ex">snapshot_dir</span> /.snapshots</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="ex">subvolume</span> /</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a><span class="ex">subvolume</span> /home</span></code></pre></div>
+<p>test with a dry run:</p>
+<div class="sourceCode" id="cb36"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> btrbk run <span class="at">-n</span></span></code></pre></div>
+<ul>
+<li>TODO: test schedule (<code>doas btrbk run -n -S</code>), then setup
+daily cron job</li>
+</ul>
 <h1 id="todo">TODO</h1>
 <ul>
 <li>Eventually, configuring the limine bootloader with the snapper
