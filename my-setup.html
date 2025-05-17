@@ -490,16 +490,20 @@ class="sourceCode sh"><code class="sourceCode bash"><span id="cb30-1"><a href="#
 <span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">--output</span> <span class="st">&quot;</span><span class="va">$uki</span><span class="st">&quot;</span></span>
 <span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a><span class="ex">sbctl</span> sign <span class="at">--output</span> /boot/EFI/BOOT/uki.efi <span class="st">&quot;</span><span class="va">$uki</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="fu">rm</span> <span class="st">&quot;</span><span class="va">$uki</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="st">&quot;✓ Deleted </span><span class="va">$uki</span><span class="st">&quot;</span></span></code></pre></div>
-<h2 id="tpm-luks-auto-decryption">TPM LUKS auto-decryption</h2>
+<p>Verify uki signature:</p>
 <div class="sourceCode" id="cb31"><pre
-class="sourceCode sh"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> apk add clevis-luks</span></code></pre></div>
-<p>Enroll using PCRs 0 and 7:</p>
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> sbctl verify</span></code></pre></div>
+<p>With the uki signed, secure boot can now be enforced.</p>
+<h2 id="tpm-luks-auto-decryption">TPM LUKS auto-decryption</h2>
 <div class="sourceCode" id="cb32"><pre
-class="sourceCode sh"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> clevis luks bind <span class="at">-d</span> /dev/nvme0n1p2 tpm2 <span class="st">&#39;{&quot;pcr_bank&quot;:&quot;sha256&quot;,&quot;pcr_ids&quot;:&quot;0,7&quot;}&#39;</span></span></code></pre></div>
-<p>Update initrd/uki:</p>
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> apk add clevis-luks</span></code></pre></div>
+<p>Enroll using PCRs 0 and 7:</p>
 <div class="sourceCode" id="cb33"><pre
-class="sourceCode sh"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> update-initramfs <span class="at">-c</span> <span class="at">-k</span> all</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> /etc/kernel.d/99-zz_uki.sh</span></code></pre></div>
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> clevis luks bind <span class="at">-d</span> /dev/nvme0n1p2 tpm2 <span class="st">&#39;{&quot;pcr_bank&quot;:&quot;sha256&quot;,&quot;pcr_ids&quot;:&quot;0,7&quot;}&#39;</span></span></code></pre></div>
+<p>Update initrd/uki:</p>
+<div class="sourceCode" id="cb34"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> update-initramfs <span class="at">-c</span> <span class="at">-k</span> all</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> /etc/kernel.d/99-zz_uki.sh</span></code></pre></div>
 <h1 id="todo">TODO</h1>
 <ul>
 <li>Eventually, configuring the limine bootloader with the snapper
