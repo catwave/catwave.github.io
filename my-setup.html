@@ -482,10 +482,10 @@ class="sourceCode sh"><code class="sourceCode bash"><span id="cb30-1"><a href="#
 <span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Building uki for: </span><span class="va">$kver</span><span class="st">&quot;</span></span>
 <span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="ex">ukify</span> build <span class="dt">\</span></span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">--uname</span> <span class="st">&quot;</span><span class="va">$kver</span><span class="st">&quot;</span> <span class="dt">\</span></span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">--linux</span> <span class="st">&quot;/boot/vmlinuz-</span><span class="va">$kver</span><span class="st">&quot;</span> <span class="dt">\</span></span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">--initrd</span> <span class="st">&quot;/boot/initrd.img-</span><span class="va">$kver</span><span class="st">&quot;</span> <span class="dt">\</span></span>
-<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">--cmdline</span> @/etc/kernel/cmdline <span class="dt">\</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">--linux</span> <span class="st">&quot;/boot/vmlinuz-</span><span class="va">$kver</span><span class="st">&quot;</span> <span class="dt">\</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">--initrd</span> <span class="st">&quot;/boot/initrd.img-</span><span class="va">$kver</span><span class="st">&quot;</span> <span class="dt">\</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">--cmdline</span> @/etc/kernel/cmdline <span class="dt">\</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">--uname</span> <span class="st">&quot;</span><span class="va">$kver</span><span class="st">&quot;</span> <span class="dt">\</span></span>
 <span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">--os-release</span> @/usr/lib/os-release <span class="dt">\</span></span>
 <span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">--output</span> <span class="st">&quot;</span><span class="va">$uki</span><span class="st">&quot;</span></span>
 <span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a></span>
