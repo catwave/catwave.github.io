@@ -248,11 +248,7 @@ simplicity, but not at the expense of feature set”</em></p>
 <h1 id="installing-chimera">Installing Chimera</h1>
 <h2 id="preparation">Preparation</h2>
 <p>Download the iso and write it to a usb stick:</p>
-<ul>
-<li><strong>Make sure you’re writing to the correct
-device!</strong></li>
-</ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dd</span> if=chimera-live.iso of=/dev/sda bs=1M status=progress oflag=sync</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dd</span> if=chimera-live.iso of=/dev/sdX bs=1M status=progress oflag=sync</span></code></pre></div>
 <h2 id="partitioning-btrfs-on-luks">Partitioning (btrfs on LUKS)</h2>
 <p>Boot into the usb live environment, connect to internet and open a
 root shell. Default creds are <code>anon:chimera</code>.</p>
@@ -403,7 +399,8 @@ zsh</code></pre>
 <ul>
 <li>copy dotfiles</li>
 </ul>
-<h2 id="setup-fprintd">setup fprintd</h2>
+<h1 id="extras">Extras</h1>
+<h2 id="fprintd">fprintd</h2>
 <div class="sourceCode" id="cb14"><pre
 class="sourceCode sh"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> apk add fprintd</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> fprintd-enroll yourusername</span></code></pre></div>
@@ -418,8 +415,7 @@ class="sourceCode sh"><code class="sourceCode bash"><span id="cb16-1"><a href="#
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co"># verify contents of newfile, then</span></span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> mv newfile /usr/lib/pam.d/system-auth</span></code></pre></div>
-<h1 id="extras">Extras</h1>
-<h2 id="incus-setup">incus setup</h2>
+<h2 id="incus">incus</h2>
 <p>The “incus-admin” group is instead named “_incus-admin”:</p>
 <div class="sourceCode" id="cb17"><pre
 class="sourceCode sh"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> usermod <span class="at">-aG</span> _incus-admin yourusername</span>
