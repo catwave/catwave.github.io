@@ -429,15 +429,16 @@ class="sourceCode sh"><code class="sourceCode bash"><span id="cb22-1"><a href="#
 class="sourceCode sh"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> usermod <span class="at">-aG</span> _incus-admin yourusername</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co"># re-login</span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="ex">incus</span> admin init</span></code></pre></div>
-<h2 id="unified-kernel-image-uki">Unified kernel image (UKI)</h2>
-<p>The goal of uki is to bundle the initrd, kernel, kernel commandline
+<h2 id="unified-kernel-image-uki-and-uefi-secure-boot">Unified Kernel
+Image (UKI) and UEFI Secure Boot</h2>
+<p>The goal here is to bundle the initrd, kernel, kernel commandline
 etc. into a single UEFI executable so that we only have to sign and
 verify a single item with secure boot.</p>
 <div class="sourceCode" id="cb24"><pre
 class="sourceCode sh"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> apk add efibootmgr sbctl ukify</span></code></pre></div>
 <p>Reboot into the firmware interface, clear TPM keys and set the TPM
-into setup mode (for framework laptops, this means enabling TPM
-operations)</p>
+into setup mode (for framework laptops, setup mode is called “TPM
+operation”)</p>
 <div class="sourceCode" id="cb25"><pre
 class="sourceCode sh"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">loginctl</span> reboot <span class="at">--firmware-setup</span></span></code></pre></div>
 <p><code>sbctl status</code> should show “Setup Mode” as “Enabled”.</p>
