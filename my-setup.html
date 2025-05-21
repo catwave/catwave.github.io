@@ -316,7 +316,7 @@ class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="ex">genfstab</span> / <span class="op">&gt;&gt;</span> /etc/fstab</span>
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> crypt /dev/nvme0n1p2 none luks <span class="op">&gt;</span> /etc/crypttab</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> crypt /dev/nvme0n1p2 none luks,discard <span class="op">&gt;</span> /etc/crypttab</span>
 <span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="ex">update-initramfs</span> <span class="at">-c</span> <span class="at">-k</span> all</span></code></pre></div>
 <p>Install systemd-boot:</p>
@@ -346,16 +346,20 @@ root.</p>
 <p>Copy dotfiles (note the trailing slash)</p>
 <div class="sourceCode" id="cb15"><pre
 class="sourceCode sh"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-r</span> ./path/to/dotfiles/ ~</span></code></pre></div>
+<p>If not already in <code>.ssh/config</code>, create
+<code>/etc/ssh/ssh_config.d/agent.conf</code> with the contents:</p>
+<pre class="ssh"><code>Host *
+  AddKeysToAgent yes</code></pre>
 <p>Add user repo:</p>
-<div class="sourceCode" id="cb16"><pre
-class="sourceCode sh"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> apk add chimera-repo-user</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> apk add chimera-repo-user</span></code></pre></div>
 <p>Concatenate current world with this one, deduplicate, then
 install:</p>
-<div class="sourceCode" id="cb17"><pre
-class="sourceCode sh"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> myworld /etc/apk/world <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="op">&gt;</span> newworld</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="ex">vim</span> newworld</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> mv newworld /etc/apk/world</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> apk fix</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> myworld /etc/apk/world <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="op">&gt;</span> newworld</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="ex">vim</span> newworld</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> mv newworld /etc/apk/world</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> apk fix</span></code></pre></div>
 <p>My current world:</p>
 <pre><code>adwaita-icon-theme
 base-full
@@ -409,116 +413,116 @@ zip
 zsh</code></pre>
 <h1 id="extras">Extras</h1>
 <h2 id="fprintd">fprintd</h2>
-<div class="sourceCode" id="cb19"><pre
-class="sourceCode sh"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> apk add fprintd</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> fprintd-enroll yourusername</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> apk add fprintd</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> fprintd-enroll yourusername</span></code></pre></div>
 <p>Insert the following line at the begining of system-auth pam
 file:</p>
 <pre><code>auth sufficient /usr/lib/security/pam_fprintd.so timeout=10</code></pre>
 <p><code>sed</code> can be used to do this:</p>
-<div class="sourceCode" id="cb21"><pre
-class="sourceCode sh"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">&#39;1i\</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="st">auth sufficient /usr/lib/security/pam_fprintd.so timeout=10</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span> /usr/lib/pam.d/system-auth <span class="op">&gt;</span> newfile</span></code></pre></div>
-<p>After verifying the contents of newfile:</p>
 <div class="sourceCode" id="cb22"><pre
-class="sourceCode sh"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> mv newfile /usr/lib/pam.d/system-auth</span></code></pre></div>
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">&#39;1i\</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="st">auth sufficient /usr/lib/security/pam_fprintd.so timeout=10</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span> /usr/lib/pam.d/system-auth <span class="op">&gt;</span> newfile</span></code></pre></div>
+<p>After verifying the contents of newfile:</p>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> mv newfile /usr/lib/pam.d/system-auth</span></code></pre></div>
 <h2 id="incus">incus</h2>
 <p>The “incus-admin” group is instead named “_incus-admin”:</p>
-<div class="sourceCode" id="cb23"><pre
-class="sourceCode sh"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> usermod <span class="at">-aG</span> _incus-admin yourusername</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co"># re-login</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="ex">incus</span> admin init</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> usermod <span class="at">-aG</span> _incus-admin yourusername</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># re-login</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="ex">incus</span> admin init</span></code></pre></div>
 <h2 id="unified-kernel-image-uki-and-uefi-secure-boot">Unified Kernel
 Image (UKI) and UEFI Secure Boot</h2>
 <p>The goal here is to bundle the initrd, kernel, kernel commandline
 etc. into a single UEFI executable so that we only have to sign and
 verify a single item with secure boot.</p>
-<div class="sourceCode" id="cb24"><pre
-class="sourceCode sh"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> apk add efibootmgr sbctl ukify</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> apk add efibootmgr sbctl ukify</span></code></pre></div>
 <p>Reboot into the firmware interface, clear TPM keys and set the TPM
 into setup mode (for framework laptops, setup mode is called “TPM
 operation”)</p>
-<div class="sourceCode" id="cb25"><pre
-class="sourceCode sh"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">loginctl</span> reboot <span class="at">--firmware-setup</span></span></code></pre></div>
-<p><code>sbctl status</code> should show “Setup Mode” as “Enabled”.</p>
 <div class="sourceCode" id="cb26"><pre
-class="sourceCode sh"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sbctl</span> status</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> sbctl create-keys</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> sbctl enroll-keys</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> cp /proc/cmdline /etc/kernel/cmdline</span></code></pre></div>
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">loginctl</span> reboot <span class="at">--firmware-setup</span></span></code></pre></div>
+<p><code>sbctl status</code> should show “Setup Mode” as “Enabled”.</p>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sbctl</span> status</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> sbctl create-keys</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> sbctl enroll-keys</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> cp /proc/cmdline /etc/kernel/cmdline</span></code></pre></div>
 <ul>
 <li>edit /etc/kernel/cmdline as needed</li>
 </ul>
 <p>Bundle and sign everything:</p>
-<div class="sourceCode" id="cb27"><pre
-class="sourceCode sh"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> sh</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="va">kver</span><span class="op">=</span><span class="va">$(</span><span class="fu">uname</span> <span class="at">-r</span><span class="va">)</span> <span class="ex">ukify</span> build <span class="at">--linux</span> <span class="st">&quot;/boot/vmlinuz-</span><span class="va">$kver</span><span class="st">&quot;</span> <span class="at">--initrd</span> <span class="st">&quot;/boot/initrd.img-</span><span class="va">$kver</span><span class="st">&quot;</span> <span class="at">--cmdline</span> @/etc/kernel/cmdline <span class="at">--os-release</span> @/usr/lib/os-release <span class="at">--output</span> /etc/kernel/uki.efi</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="ex">sbctl</span> sign <span class="at">--output</span> /boot/EFI/BOOT/uki.efi /etc/kernel/uki.efi</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> sh</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="va">kver</span><span class="op">=</span><span class="va">$(</span><span class="fu">uname</span> <span class="at">-r</span><span class="va">)</span> <span class="ex">ukify</span> build <span class="at">--linux</span> <span class="st">&quot;/boot/vmlinuz-</span><span class="va">$kver</span><span class="st">&quot;</span> <span class="at">--initrd</span> <span class="st">&quot;/boot/initrd.img-</span><span class="va">$kver</span><span class="st">&quot;</span> <span class="at">--cmdline</span> @/etc/kernel/cmdline <span class="at">--os-release</span> @/usr/lib/os-release <span class="at">--output</span> /etc/kernel/uki.efi</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="ex">sbctl</span> sign <span class="at">--output</span> /boot/EFI/BOOT/uki.efi /etc/kernel/uki.efi</span></code></pre></div>
 <p>To manage boot entries from within the OS, <code>efibootmgr</code>
 can be used</p>
 <p>To delete boot entry 0:</p>
-<div class="sourceCode" id="cb28"><pre
-class="sourceCode sh"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> efibootmgr <span class="at">-B</span> <span class="at">-b</span> 0</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> efibootmgr <span class="at">-B</span> <span class="at">-b</span> 0</span></code></pre></div>
 <p>To create the new boot entry (note the use of
 <strong>backslashes</strong> in the loader path)</p>
-<div class="sourceCode" id="cb29"><pre
-class="sourceCode sh"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> efibootmgr <span class="at">--create</span> <span class="at">--disk</span><span class="op">=</span>/dev/nvme0n1 <span class="at">--part</span><span class="op">=</span>1 <span class="at">--label</span><span class="op">=</span><span class="st">&quot;chimera&quot;</span> <span class="at">--loader</span><span class="op">=</span><span class="st">&#39;EFI\BOOT\uki.efi&#39;</span></span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> efibootmgr <span class="at">--create</span> <span class="at">--disk</span><span class="op">=</span>/dev/nvme0n1 <span class="at">--part</span><span class="op">=</span>1 <span class="at">--label</span><span class="op">=</span><span class="st">&quot;chimera&quot;</span> <span class="at">--loader</span><span class="op">=</span><span class="st">&#39;EFI\BOOT\uki.efi&#39;</span></span></code></pre></div>
 <p>To auto-generate and sign the uki, this script can be used:</p>
 <p><code>/etc/kernel.d/99-zz_uki.sh:</code></p>
-<div class="sourceCode" id="cb30"><pre
-class="sourceCode sh"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/sh</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co"># generate new uki as needed</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="va">uki</span><span class="op">=</span>/etc/kernel/uki.efi</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="va">kver</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$(</span><span class="ex">linux-version</span> list<span class="kw">|</span><span class="ex">linux-version</span> sort <span class="at">--reverse</span><span class="kw">|</span><span class="fu">sed</span> q<span class="va">)</span><span class="st">&quot;</span></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Building uki for: </span><span class="va">$kver</span><span class="st">&quot;</span></span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="ex">ukify</span> build <span class="dt">\</span></span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">--linux</span> <span class="st">&quot;/boot/vmlinuz-</span><span class="va">$kver</span><span class="st">&quot;</span> <span class="dt">\</span></span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">--initrd</span> <span class="st">&quot;/boot/initrd.img-</span><span class="va">$kver</span><span class="st">&quot;</span> <span class="dt">\</span></span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">--cmdline</span> @/etc/kernel/cmdline <span class="dt">\</span></span>
-<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">--uname</span> <span class="st">&quot;</span><span class="va">$kver</span><span class="st">&quot;</span> <span class="dt">\</span></span>
-<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">--os-release</span> @/usr/lib/os-release <span class="dt">\</span></span>
-<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">--output</span> <span class="st">&quot;</span><span class="va">$uki</span><span class="st">&quot;</span></span>
-<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a><span class="ex">sbctl</span> sign <span class="at">--output</span> /boot/EFI/BOOT/uki.efi <span class="st">&quot;</span><span class="va">$uki</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="fu">rm</span> <span class="st">&quot;</span><span class="va">$uki</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="st">&quot;✓ Deleted </span><span class="va">$uki</span><span class="st">&quot;</span></span></code></pre></div>
-<p>Verify uki signature:</p>
 <div class="sourceCode" id="cb31"><pre
-class="sourceCode sh"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> sbctl verify</span></code></pre></div>
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/sh</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># generate new uki as needed</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="va">uki</span><span class="op">=</span>/etc/kernel/uki.efi</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="va">kver</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$(</span><span class="ex">linux-version</span> list<span class="kw">|</span><span class="ex">linux-version</span> sort <span class="at">--reverse</span><span class="kw">|</span><span class="fu">sed</span> q<span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Building uki for: </span><span class="va">$kver</span><span class="st">&quot;</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="ex">ukify</span> build <span class="dt">\</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">--linux</span> <span class="st">&quot;/boot/vmlinuz-</span><span class="va">$kver</span><span class="st">&quot;</span> <span class="dt">\</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">--initrd</span> <span class="st">&quot;/boot/initrd.img-</span><span class="va">$kver</span><span class="st">&quot;</span> <span class="dt">\</span></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">--cmdline</span> @/etc/kernel/cmdline <span class="dt">\</span></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">--uname</span> <span class="st">&quot;</span><span class="va">$kver</span><span class="st">&quot;</span> <span class="dt">\</span></span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">--os-release</span> @/usr/lib/os-release <span class="dt">\</span></span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">--output</span> <span class="st">&quot;</span><span class="va">$uki</span><span class="st">&quot;</span></span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a><span class="ex">sbctl</span> sign <span class="at">--output</span> /boot/EFI/BOOT/uki.efi <span class="st">&quot;</span><span class="va">$uki</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="fu">rm</span> <span class="st">&quot;</span><span class="va">$uki</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="st">&quot;✓ Deleted </span><span class="va">$uki</span><span class="st">&quot;</span></span></code></pre></div>
+<p>Verify uki signature:</p>
+<div class="sourceCode" id="cb32"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> sbctl verify</span></code></pre></div>
 <p>With the uki signed, secure boot can now be enforced.</p>
 <h2 id="tpm-luks-auto-decryption">TPM LUKS auto-decryption</h2>
-<div class="sourceCode" id="cb32"><pre
-class="sourceCode sh"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> apk add clevis-luks</span></code></pre></div>
-<p>Enroll using PCRs 0 and 7:</p>
 <div class="sourceCode" id="cb33"><pre
-class="sourceCode sh"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> clevis luks bind <span class="at">-d</span> /dev/nvme0n1p2 tpm2 <span class="st">&#39;{&quot;pcr_bank&quot;:&quot;sha256&quot;,&quot;pcr_ids&quot;:&quot;0,7&quot;}&#39;</span></span></code></pre></div>
-<p>Update initrd/uki:</p>
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> apk add clevis-luks</span></code></pre></div>
+<p>Enroll using PCRs 0 and 7:</p>
 <div class="sourceCode" id="cb34"><pre
-class="sourceCode sh"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> update-initramfs <span class="at">-c</span> <span class="at">-k</span> all</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> /etc/kernel.d/99-zz_uki.sh</span></code></pre></div>
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> clevis luks bind <span class="at">-d</span> /dev/nvme0n1p2 tpm2 <span class="st">&#39;{&quot;pcr_bank&quot;:&quot;sha256&quot;,&quot;pcr_ids&quot;:&quot;0,7&quot;}&#39;</span></span></code></pre></div>
+<p>Update initrd/uki:</p>
+<div class="sourceCode" id="cb35"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> update-initramfs <span class="at">-c</span> <span class="at">-k</span> all</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="ex">doas</span> /etc/kernel.d/99-zz_uki.sh</span></code></pre></div>
 <h2 id="btrfs-snapshots">btrfs snapshots</h2>
 <p>Create root and home snapshots:</p>
-<div class="sourceCode" id="cb35"><pre
-class="sourceCode sh"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="va">DATE</span><span class="op">=</span><span class="va">$(</span><span class="fu">date</span> <span class="st">&quot;+%Y%m%dT%H%M&quot;</span><span class="va">)</span> <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="ex">btrfs</span> sub snap <span class="at">-r</span> / /.snapshots/root.<span class="va">$DATE</span> <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="ex">btrfs</span> sub snap <span class="at">-r</span> /home /.snapshots/home.<span class="va">$DATE</span></span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="va">DATE</span><span class="op">=</span><span class="va">$(</span><span class="fu">date</span> <span class="st">&quot;+%Y%m%dT%H%M&quot;</span><span class="va">)</span> <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="ex">btrfs</span> sub snap <span class="at">-r</span> / /.snapshots/root.<span class="va">$DATE</span> <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="ex">btrfs</span> sub snap <span class="at">-r</span> /home /.snapshots/home.<span class="va">$DATE</span></span></code></pre></div>
 <p>To restore, run from live env mount the toplevel filesystem to
 /mnt</p>
-<div class="sourceCode" id="cb36"><pre
-class="sourceCode sh"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mount</span> <span class="at">-t</span> btrfs <span class="at">-o</span> rw,noatime,compress=zstd,discard=async /dev/mapper/crypt /mnt</span></code></pre></div>
-<p>then, rename the old root</p>
 <div class="sourceCode" id="cb37"><pre
-class="sourceCode sh"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> /mnt/@ /mnt/@.old</span></code></pre></div>
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mount</span> <span class="at">-t</span> btrfs <span class="at">-o</span> rw,noatime,compress=zstd,discard=async /dev/mapper/crypt /mnt</span></code></pre></div>
+<p>then, rename the old root</p>
+<div class="sourceCode" id="cb38"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> /mnt/@ /mnt/@.old</span></code></pre></div>
 <p>And restore it from the readonly snapshot (note the absence of “-r”,
 so the new snap is rw)</p>
-<div class="sourceCode" id="cb38"><pre
-class="sourceCode sh"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="ex">btrfs</span> sub snap /mnt/@snapshots/<span class="op">&lt;</span>name<span class="op">&gt;</span> /mnt/@</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="ex">btrfs</span> sub snap /mnt/@snapshots/<span class="op">&lt;</span>name<span class="op">&gt;</span> /mnt/@</span></code></pre></div>
 <h1 id="todo">TODO</h1>
 <ul>
 <li>Eventually, configuring the limine bootloader with the snapper
