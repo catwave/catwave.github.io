@@ -515,7 +515,8 @@ class="sourceCode sh"><code class="sourceCode bash"><span id="cb36-1"><a href="#
 <p>To restore, run from live env mount the toplevel filesystem to
 /mnt</p>
 <div class="sourceCode" id="cb37"><pre
-class="sourceCode sh"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mount</span> <span class="at">-t</span> btrfs <span class="at">-o</span> rw,noatime,compress=zstd,discard=async /dev/mapper/crypt /mnt</span></code></pre></div>
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="ex">cryptsetup</span> luksOpen /dev/nvme0n1p2 crypt</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mount</span> <span class="at">-t</span> btrfs <span class="at">-o</span> rw,noatime,compress=zstd,discard=async /dev/mapper/crypt /mnt</span></code></pre></div>
 <p>then, rename the old root</p>
 <div class="sourceCode" id="cb38"><pre
 class="sourceCode sh"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> /mnt/@ /mnt/@.old</span></code></pre></div>
