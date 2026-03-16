@@ -235,18 +235,11 @@
 <header id="title-block-header">
 <h1 class="title">My Setup</h1>
 </header>
-<h1 id="intro">Intro</h1>
-<p>Switching to a new laptop was a good opportunity to reconsider my
-whole setup. I chose Chimera as I like its design decisions.</p>
 <p><em>“Chimera is an independent, general-purpose, rolling-release
 Linux distribution developed from scratch. It utilizes a FreeBSD-based
 userland, musl C library and the LLVM toolchain, along with the dinit
 service manager. Its primary focus is correctness, consistency and
 simplicity, but not at the expense of feature set”</em></p>
-<p>I recommend reading their docs, it’s clear, concise, and more
-complete than this.</p>
-<p><code>cbuild</code> is also amazing.</p>
-<h1 id="installing-chimera">Installing Chimera</h1>
 <h2 id="preparation">Preparation</h2>
 <p>Download the iso, verify it and write it to a usb stick:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dd</span> if=chimera-x86_64-live-gnome.iso of=/dev/sdX bs=1M status=progress oflag=sync</span></code></pre></div>
@@ -521,13 +514,8 @@ class="sourceCode sh"><code class="sourceCode bash"><span id="cb37-1"><a href="#
 <div class="sourceCode" id="cb38"><pre
 class="sourceCode sh"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> /mnt/@ /mnt/@.old</span></code></pre></div>
 <p>And restore it from the readonly snapshot (note the absence of “-r”,
-so the new snap is rw)</p>
+so the new snapshot is read+write)</p>
 <div class="sourceCode" id="cb39"><pre
 class="sourceCode sh"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="ex">btrfs</span> sub snap /mnt/@snapshots/<span class="op">&lt;</span>name<span class="op">&gt;</span> /mnt/@</span></code></pre></div>
-<h1 id="todo">TODO</h1>
-<ul>
-<li>Eventually, configuring the limine bootloader with the snapper
-extension for btrfs snapshots management would be cool.</li>
-</ul>
 </body>
 </html>
