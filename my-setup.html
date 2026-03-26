@@ -293,7 +293,7 @@ mounted, then mount the subvolumes:</p>
 <span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="fu">mount</span> <span class="at">-t</span> btrfs <span class="at">-o</span> <span class="va">$BTRFS_OPTS</span>,subvol=@snapshots /dev/mapper/crypt /media/root/.snapshots</span>
 <span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="fu">mount</span> <span class="at">-o</span> fmask=0077,dmask=0077 /dev/nvme0n1p1 /media/root/boot</span></code></pre></div>
 <p>Once everything is mounted, install Chimera and chroot into it:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">chimera-bootstrap</span> /media/root</span>
+<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">chimera-bootstrap</span> -l /media/root</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">chimera-chroot</span> /media/root</span></code></pre></div>
 <p>Set the <code>root</code> password, install the stable kernel, add
 needed packages, create the swapfile, generate fstab, crypttab, and
